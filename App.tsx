@@ -23,6 +23,10 @@ function Section({children, title}: SectionProps): JSX.Element {
   return <View></View>;
 }
 
+
+//TODO: get 100q pdf file english https://www.uscis.gov/sites/default/files/document/questions-and-answers/100q.pdf
+//TODO: get 100q pdf file spanish https://www.uscis.gov/sites/default/files/document/questions-and-answers/100q_Spanish.pdf
+//TODO: get 100q pdf file chinese https://www.uscis.gov/sites/default/files/document/questions-and-answers/100q_Chinese.pdf
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
