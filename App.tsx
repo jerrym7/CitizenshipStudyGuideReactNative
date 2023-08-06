@@ -1,33 +1,50 @@
-import React from 'react';
+import React, {useLayoutEffect} from 'react';
 import type {PropsWithChildren} from 'react';
 import {
-  ScrollView,
-  StatusBar,
   StyleSheet,
-  Text,
   useColorScheme,
   View,
+  Platform,
+  NativeModules,
 } from 'react-native';
-
+import {
+  SaveAsyncFromStorage,
+  GetAsyncFromStorage,
+} from './src/utils/Helpers/storage/StorageHelper';
 import {Provider as PaperProvider} from 'react-native-paper';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import {MaterialDarkTheme, MaterialLightTheme} from './themes/color';
 import BottomNavigation from './src/BottomNavigation/BottomNavigation';
 
 type SectionProps = PropsWithChildren<{
   title: string;
 }>;
+interface IStoragePayload {
+  key: string;
+  payload: object;
+}
 
 function Section({children, title}: SectionProps): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
   return <View></View>;
 }
 
-
-//TODO: get 100q pdf file english https://www.uscis.gov/sites/default/files/document/questions-and-answers/100q.pdf
-//TODO: get 100q pdf file spanish https://www.uscis.gov/sites/default/files/document/questions-and-answers/100q_Spanish.pdf
+// Languages: English, Arabic, Chinese, Korean, Spanish, Tagalog, and Vietnamese
 //TODO: get 100q pdf file chinese https://www.uscis.gov/sites/default/files/document/questions-and-answers/100q_Chinese.pdf
 function App(): JSX.Element {
+  const deviceLanguage =
+    Platform.OS === 'ios'
+      ? NativeModules.SettingsManager.settings.AppleLocale ||
+        NativeModules.SettingsManager.settings.AppleLanguages[0] //iOS 13
+      : NativeModules.I18nManager.localeIdentifier;
+  const storagePayload: IStoragePayload = {
+    key: 'language',
+    payload: deviceLanguage,
+  };
+  if (deviceLanguage) {
+    SaveAsyncFromStorage(storagePayload);
+  }
+  useLayoutEffect(() => {}, []);
   const isDarkMode = useColorScheme() === 'dark';
 
   const style: any = styles(
@@ -39,8 +56,7 @@ function App(): JSX.Element {
     return (
       <SafeAreaProvider>
         <PaperProvider theme={MaterialLightTheme}>
-            <StatusBar barStyle={'light-content'} />
-            <BottomNavigation screenName="Home" />
+          <BottomNavigation screenName="Home" />
         </PaperProvider>
       </SafeAreaProvider>
     );
@@ -54,7 +70,6 @@ function App(): JSX.Element {
             width: '100%',
             height: '100%',
           }}>
-          <StatusBar barStyle={'dark-content'} />
           <BottomNavigation screenName="Home" />
         </SafeAreaView>
       </PaperProvider>

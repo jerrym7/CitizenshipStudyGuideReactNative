@@ -105,7 +105,10 @@ const FlipCard = ({
             activeOpacity={1}
             onPress={() => (spin.value = spin.value ? 0 : 1)}
             style={[styles.touchableStyle]}>
-            <ScrollView>
+            <ScrollView
+              nestedScrollEnabled
+              contentContainerStyle={styles.scrollViewStyle}
+              showsVerticalScrollIndicator={false}>
               <View style={[styles.answerContainerStyle]}>
                 <Text
                   style={[
@@ -123,7 +126,7 @@ const FlipCard = ({
                         props.questionAnswerTextStyle,
                       ]}
                       key={index}>
-                      {`\u25CF ${answer}`}
+                      {`\u25CF  ${answer}`}
                     </Text>
                   ))}
                 </View>
@@ -159,8 +162,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   touchableStyle: {
-    width: '100%',
-    height: '100%',
+    width: '80%',
+    height: '80%',
     justifyContent: 'center', //Centered vertically
     alignItems: 'center', //Centered horizontally
     flex: 1,
@@ -182,7 +185,7 @@ const styles = StyleSheet.create({
   questionAnswerTextStyle: {
     textAlign: 'center',
     textAlignVertical: 'center',
-    fontSize: 16,
+    fontSize: 18,
     fontStyle: 'italic',
   },
   shadowProp: {
@@ -196,5 +199,10 @@ const styles = StyleSheet.create({
     //android
     elevation: 10,
     shadowColor: '#171717',
+  },
+  scrollViewStyle: {
+    justifyContent: 'center', //Centered vertically
+    alignItems: 'center', //Centered horizontally
+    flex: 1,
   },
 });

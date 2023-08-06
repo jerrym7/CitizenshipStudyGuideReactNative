@@ -37,6 +37,7 @@ const BottomNavigation = ({screenName}) => {
           component={StudyGuideScreen}
           options={{
             tabBarLabel: 'Study',
+            headerShown: false,
             tabBarIcon: ({focused, color, size, tintColor}) => (
               <FeatherIcons size={size} color={color} name="book" />
             ),
