@@ -1,10 +1,11 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import React from "react";
 
+import Text from "../../components/customstyles/Text";
 const PracticeExamTabScreen = () => {
   return (
     <View>
-      <Text>practice-exam</Text>
+      <Text style={{}}>practice-exam</Text>
     </View>
   );
 };

@@ -12,6 +12,8 @@ import FlipCard from "../../components/card/FlipCard";
 import CustomModal from "../../components/popup/ModalComponent";
 import { getQuestionsByLanguage } from "../../utilities/dataRetrieveHelper"; // Import the helper function
 
+import Text from "../../components/customstyles/Text";
+
 interface Question {
   question: string;
   answers: string[];
