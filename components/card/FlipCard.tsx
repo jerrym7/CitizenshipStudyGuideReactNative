@@ -37,110 +37,111 @@ const FlipCard = ({
 }: ICardInputProps) => {
   const spin = useSharedValue<number>(0);
 
-  const isAndroidPlatform: boolean = Platform.OS === "android"; // or 'ios'
+  const isWebPlatform = Platform.OS === "web"; // Check if the platform is web
 
   const rStyle = useAnimatedStyle(() => {
-    const spinVal = interpolate(spin.value, [0, 1], [0, 180]);
+    const spinVal = interpolate(spin.value, [0, 1], [0, 180], "clamp");
     return {
       transform: [
         {
           rotateY: withTiming(`${spinVal}deg`, { duration: 500 }),
         },
       ],
+      backfaceVisibility: "hidden",
     };
-  }, []);
+  });
 
   const bStyle = useAnimatedStyle(() => {
-    const spinVal = interpolate(spin.value, [0, 1], [180, 360]);
+    const spinVal = interpolate(spin.value, [0, 1], [180, 360], "clamp");
     return {
       transform: [
         {
           rotateY: withTiming(`${spinVal}deg`, { duration: 500 }),
         },
       ],
+      backfaceVisibility: "hidden",
     };
-  }, []);
+  });
+
   return (
     <View>
-      <View>
-        <Animated.View
-          style={[
-            styles.frontAnimatedViewStyle,
-            rStyle,
-            isAndroidPlatform ? styles.elevation : styles.shadowProp,
-            props.frontAnimatedViewStyle,
-          ]}
+      <Animated.View
+        style={[
+          styles.frontAnimatedViewStyle,
+          rStyle,
+          isWebPlatform && { position: "absolute" },
+          props.frontAnimatedViewStyle,
+        ]}
+      >
+        <TouchableOpacity
+          onPress={() => (spin.value = spin.value ? 0 : 1)}
+          style={[styles.touchableStyle]}
+          activeOpacity={1}
         >
-          <TouchableOpacity
-            onPress={() => (spin.value = spin.value ? 0 : 1)}
-            style={[styles.touchableStyle]}
-            activeOpacity={1}
+          <Text
+            style={[
+              styles.titleTextStyle,
+              styles.boldTextStyle,
+              props.titleTextStyle,
+            ]}
           >
-            <Text
-              style={[
-                styles.titleTextStyle,
-                styles.boldTextStyle,
-                props.titleTextStyle,
-              ]}
-            >
-              Q{index + 1}:{"\n"}
-            </Text>
-            <Text
-              style={[
-                styles.questionAnswerTextStyle,
-                props.questionAnswerTextStyle,
-              ]}
-            >
-              {question}
-            </Text>
-          </TouchableOpacity>
-        </Animated.View>
-        <Animated.View
-          style={[
-            styles.backAnimatedViewStyle,
-            bStyle,
-            isAndroidPlatform ? styles.elevation : styles.shadowProp,
-            props.backAnimatedViewStyle,
-          ]}
+            Q{index + 1}:{"\n"}
+          </Text>
+          <Text
+            style={[
+              styles.questionAnswerTextStyle,
+              props.questionAnswerTextStyle,
+            ]}
+          >
+            {question}
+          </Text>
+        </TouchableOpacity>
+      </Animated.View>
+      <Animated.View
+        style={[
+          styles.backAnimatedViewStyle,
+          bStyle,
+          isWebPlatform && { position: "absolute" },
+          props.backAnimatedViewStyle,
+        ]}
+      >
+        <TouchableOpacity
+          activeOpacity={1}
+          onPress={() => (spin.value = spin.value ? 0 : 1)}
+          style={[styles.touchableStyle]}
         >
-          <TouchableOpacity
-            activeOpacity={1}
-            onPress={() => (spin.value = spin.value ? 0 : 1)}
-            style={[styles.touchableStyle]}
+          <ScrollView
+            nestedScrollEnabled
+            contentContainerStyle={styles.scrollViewStyle}
+            showsVerticalScrollIndicator={false}
           >
-            <ScrollView
-              nestedScrollEnabled
-              contentContainerStyle={styles.scrollViewStyle}
-              showsVerticalScrollIndicator={false}
-            >
-              <View style={[styles.answerContainerStyle]}>
-                <Text
-                  style={[
-                    styles.titleTextStyle,
-                    styles.boldTextStyle,
-                    props.titleTextStyle,
-                  ]}
-                >
-                  Answer:{"\n"}
-                </Text>
-                <View onStartShouldSetResponder={() => true}>
-                  {answers.map((answer, index) => (
-                    <Text
-                      style={[
-                        styles.questionAnswerTextStyle,
-                        props.questionAnswerTextStyle,
-                      ]}
-                      key={index}
-                    >
-                      {`\u25CF  ${answer}`}
-                    </Text>
-                  ))}
-                </View>
+            <View style={[styles.answerContainerStyle]}>
+              <Text
+                style={[
+                  styles.titleTextStyle,
+                  styles.boldTextStyle,
+                  props.titleTextStyle,
+                ]}
+              >
+                Answer:{"\n"}
+              </Text>
+              <View onStartShouldSetResponder={() => true}>
+                {answers.map((answer, index) => (
+                  <Text
+                    style={[
+                      styles.questionAnswerTextStyle,
+                      props.questionAnswerTextStyle,
+                    ]}
+                    key={index}
+                  >
+                    {`\u25CF  ${answer}`}
+                  </Text>
+                ))}
               </View>
-            </ScrollView>
-          </TouchableOpacity>
-        </Animated.View>
-      </View>
+            </View>
+          </ScrollView>
+        </TouchableOpacity>
+      </Animated.View>
     </View>
   );
 };

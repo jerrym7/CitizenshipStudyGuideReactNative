@@ -4,6 +4,9 @@ This is a new [**React Native**](https://reactnative.dev) project, bootstrapped 
 
 > **Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
 > App is using Expo version 0.18.25 with EXPO SDK 51.0.22.
+> Node version is v20.16.0 (latest LTS build)
+> Java version 17.0.10 2024-01-16 LTS
+> Please make sure to have yarn installed, as project was meant to use yarn or `npx expo` commands
 
 ## Step 1: Start the Metro Server
 
