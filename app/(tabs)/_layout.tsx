@@ -10,6 +10,7 @@ import Fontisto from "@expo/vector-icons/Fontisto";
 import { useDispatch, useSelector } from "react-redux";
 import { setLanguage } from "@/redux/actions/languageActions";
 import * as Localization from "expo-localization";
+import { ITheme } from "@/utilities/themes/ITheme";
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {
@@ -20,6 +21,7 @@ function TabBarIcon(props: {
 }
 
 export default function TabLayout() {
+  const theme: ITheme = useSelector((state: any) => state.theme.theme);
   const dispatch = useDispatch();
   const colorScheme = useColorScheme();
   const language = useSelector((state: any) => state.language.language);
@@ -35,7 +37,12 @@ export default function TabLayout() {
     <Tabs
       initialRouteName="home"
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+        tabBarActiveTintColor: theme.colors.activeTint, // Use theme tint color for active tab
+        tabBarInactiveTintColor: theme.colors.inactiveTint, // Use theme text color for inactive tabs
+        headerTintColor: theme.colors.activeIconText,
+        tabBarStyle: {
+          backgroundColor: theme.colors.background, // Set the background color of the tab bar
+        },
         // Disable the static render of the header on web
         // to prevent a hydration error in React Navigation v6.
         headerShown: useClientOnlyValue(true, true),
